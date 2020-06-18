@@ -2,30 +2,20 @@ const { GraphQLServer } = require('graphql-yoga')
 
 const { PORT = 4000 } = process.env;
 
-// dummy data
-let links = [{
-  id: 'link-0',
-  url: 'www.danielalexanderthompson.com',
-  description: 'Personal website'
-}]
-
-let idCount = links.length
 const resolvers = {
   Query: {
     info: () => `This is the API`,
-    feed: () => links,
+    feed: (root, args, context, info) => {
+      return context.prisma.links()
+    },
   },
   Mutation: {
-    // 2
-    post: (parent, args) => {
-       const link = {
-        id: `link-${idCount++}`,
-        description: args.description,
+    post: (root, args, context) => {
+      return context.prisma.createLink({
         url: args.url,
-      }
-      links.push(link)
-      return link
-    }
+        description: args.description,
+      })
+    },
   },
 }
 
