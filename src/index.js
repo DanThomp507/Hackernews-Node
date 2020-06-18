@@ -9,16 +9,24 @@ let links = [{
   description: 'Personal website'
 }]
 
+let idCount = links.length
 const resolvers = {
   Query: {
     info: () => `This is the API`,
     feed: () => links,
   },
-  Link: {
-    id: (parent) => parent.id,
-    description: (parent) => parent.description,
-    url: (parent) => parent.url,
-  }
+  Mutation: {
+    // 2
+    post: (parent, args) => {
+       const link = {
+        id: `link-${idCount++}`,
+        description: args.description,
+        url: args.url,
+      }
+      links.push(link)
+      return link
+    }
+  },
 }
 
 const server = new GraphQLServer({
