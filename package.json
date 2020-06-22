@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --config ./jest.config.json",
+    "test:watch": "yarn test -- --watch"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "graphql-yoga": "^1.18.3",
